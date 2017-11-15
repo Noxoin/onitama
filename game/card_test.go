@@ -5,9 +5,11 @@ import (
 )
 
 func TestGenerateRandom(t *testing.T) {
-	cards := GetRandomCards(5, 1)
+	cards := GetRandomCards(5, 3)
 	if len(cards) != 5 {
-		t.Errorf("Incorrect resulting number of cards: want:5 got: %v", len(cards))
+		t.Errorf("TestGenerateRandom failed: " +
+						 "Incorrect resulting number of cards: got: %v, want: 5",
+						 len(cards))
 		return
 	}
 	seen := make(map[string]bool)

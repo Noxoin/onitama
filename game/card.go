@@ -8,7 +8,7 @@ var (
 	cards = []*Card {
 		{
 			Name: "boar",
-			Team: 0,
+			Team: Red,
 			Moves: []*Cord{
 				{ X: -1, Y: 0 },
 				{ X:  0, Y: 1 },
@@ -17,7 +17,7 @@ var (
 		},
 		{
 			Name: "dragon",
-			Team: 0,
+			Team: Red,
 			Moves: []*Cord{
 				{ X: -2, Y:  1 },
 				{ X: -1, Y: -1 },
@@ -27,7 +27,7 @@ var (
 		},
 		{
 			Name: "eel",
-			Team: 1,
+			Team: Blue,
 			Moves: []*Cord{
 				{ X: -1, Y: -1 },
 				{ X: -1, Y:  1 },
@@ -36,7 +36,7 @@ var (
 		},
 		{
 			Name: "monkey",
-			Team: 1,
+			Team: Blue,
 			Moves: []*Cord{
 				{ X: -1, Y: -1 },
 				{ X: -1, Y:  1 },
@@ -46,7 +46,7 @@ var (
 		},
 		{
 			Name: "crane",
-			Team: 1,
+			Team: Blue,
 			Moves: []*Cord{
 				{ X: -1, Y: -1 },
 				{ X:  0, Y:  1 },
@@ -55,7 +55,7 @@ var (
 		},
 		{
 			Name: "ox",
-			Team: 1,
+			Team: Blue,
 			Moves: []*Cord{
 				{ X:  0, Y: -1 },
 				{ X:  0, Y:  1 },
@@ -64,7 +64,7 @@ var (
 		},
 		{
 			Name: "frog",
-			Team: 0,
+			Team: Red,
 			Moves: []*Cord{
 				{ X: -2, Y:  0 },
 				{ X: -1, Y:  1 },
@@ -73,7 +73,7 @@ var (
 		},
 		{
 			Name: "tiger",
-			Team: 1,
+			Team: Blue,
 			Moves: []*Cord{
 				{ X:  0, Y: -1 },
 				{ X:  0, Y:  2 },
@@ -81,7 +81,7 @@ var (
 		},
 		{
 			Name: "goose",
-			Team: 1,
+			Team: Blue,
 			Moves: []*Cord{
 				{ X: -1, Y:  1 },
 				{ X: -1, Y:  0 },
@@ -91,7 +91,7 @@ var (
 		},
 		{
 			Name: "crab",
-			Team: 1,
+			Team: Blue,
 			Moves: []*Cord{
 				{ X: -2, Y:  0 },
 				{ X:  0, Y:  1 },
@@ -100,7 +100,7 @@ var (
 		},
 		{
 			Name: "cobra",
-			Team: 0,
+			Team: Red,
 			Moves: []*Cord{
 				{ X: -1, Y:  0 },
 				{ X:  1, Y: -1 },
@@ -109,7 +109,7 @@ var (
 		},
 		{
 			Name: "rooser",
-			Team: 0,
+			Team: Red,
 			Moves: []*Cord{
 				{ X: -1, Y: -1 },
 				{ X: -1, Y:  0 },
@@ -119,7 +119,7 @@ var (
 		},
 		{
 			Name: "mantis",
-			Team: 0,
+			Team: Red,
 			Moves: []*Cord{
 				{ X: -1, Y:  1 },
 				{ X:  0, Y: -1 },
@@ -128,7 +128,7 @@ var (
 		},
 		{
 			Name: "rabbit",
-			Team: 1,
+			Team: Blue,
 			Moves: []*Cord{
 				{ X: -1, Y: -1 },
 				{ X:  1, Y:  1 },
@@ -137,7 +137,7 @@ var (
 		},
 		{
 			Name: "horse",
-			Team: 0,
+			Team: Red,
 			Moves: []*Cord{
 				{ X: -1, Y:  0 },
 				{ X:  0, Y: -1 },
@@ -146,7 +146,7 @@ var (
 		},
 		{
 			Name: "elephant",
-			Team: 0,
+			Team: Red,
 			Moves: []*Cord{
 				{ X: -1, Y:  0 },
 				{ X: -1, Y:  1 },
@@ -170,7 +170,7 @@ func GetRandomCards(n int, seed int64) ([]*Card) {
 type Card struct {
 	Name string
 	Moves []*Cord
-	Team int  // Red = 0, Blue = 1
+	Team Team
 }
 
 func (c *Card) isValidMove(cord Cord) (bool) {
