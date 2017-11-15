@@ -2,11 +2,11 @@ package game
 
 type Piece struct {
 	Position Cord
-	Team int
+	Team Team
 	king bool
 }
 
-func NewPiece(position Cord, king bool, team int) (*Piece) {
+func NewPiece(position Cord, king bool, team Team) (*Piece) {
 	return &Piece{
 		Position: position,
 		king: king,
