@@ -1,7 +1,6 @@
 package game
 
 type Board struct {
-	turn int
 	board [][]*Piece
 }
 
@@ -10,13 +9,17 @@ func NewBoard() (*Board) {
 	for i := range board {
 		board[i] = make([]*Piece, 5)
 	}
-
 	return &Board {
 		board: board,
+
 	}
 }
 
-func (b *Board) getPiece(c Cord) (*Piece) {
+func (b *Board) GetPiece(c Cord) (*Piece) {
 	return b.board[c.X][c.Y]
+}
+
+func (b *Board) SetNewPiece(c Cord, p *Piece) {
+	b.board[c.X][c.Y] = p
 }
 
