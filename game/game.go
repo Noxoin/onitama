@@ -80,10 +80,16 @@ func (g *Game) validateMove(from Cord, to Cord) (error) {
 }
 
 func (g *Game) PerformNextMove(from Cord, to Cord) (error) {
-	// TODO(noxoin): Implement
 	if err := g.validateMove(from, to); err != nil {
 		return err
 	}
+	piece, _ := g.board.GetPiece(from)
+	g.board.SetPiece(to, piece)
+	g.board.SetPiece(from, nil)
 	return nil
+}
+
+func (g *Game) GetWinner() (Team, error) {
+	return None, nil
 }
 

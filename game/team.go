@@ -8,11 +8,14 @@ func (t Team) String() string {
 		return "Read"
 	case Blue:
 		return "Blue"
+	case None:
+		return "None"
 	}
 	return ""
 }
 
 const (
-	Red Team = iota
+	None Team = iota
+	Red
 	Blue
 )
