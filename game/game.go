@@ -40,9 +40,9 @@ func NewGame() (*Game) {
 	}
 }
 
-func (g *Game) getCardFromMove(move Cord) (*Card) {
+func (g *Game) getCardFromName(name string) (*Card) {
 	for _, card := range g.cards[g.turn] {
-		if card.isValidMove(move) {
+		if card.Name == name {
 			return card
 		}
 	}
@@ -63,9 +63,12 @@ func (g *Game) validateMove(from Cord, to Cord) (error) {
 	}
 
 	move := from.Delta(to)
-	card := g.getCardFromMove(move)
+	card := g.getCardFromName(move)
 	if card == nil {
 		return errors.New("Unable to perform that move with the cards at hand")
+	}
+	if !card.isValidMove(move) {
+		return errors.New("The specified move is not valid for the card stated")
 	}
 
 	endPiece, err := g.board.GetPiece(to)
