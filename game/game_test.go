@@ -22,7 +22,7 @@ func getTestGame() (*Game) {
 func TestValidateMove(t *testing.T) {
 	t.Run("Valid Move", func(t *testing.T) {
 		game := getTestGame()
-		err := game.validateMove(Cord{1, 0}, Cord{1, 1}, "crane")
+		err := game.validateMove(Cord{X:1, Y:0}, Cord{X:1, Y:1}, "crane")
 		if err != nil {
 			t.Errorf("Should not be an error")
 		}
@@ -30,7 +30,7 @@ func TestValidateMove(t *testing.T) {
 
 	t.Run("Starting Cord Out of Bounds", func(t *testing.T) {
 		game := getTestGame()
-		err := game.validateMove(Cord{-1, 1}, Cord{0, 0}, "card")
+		err := game.validateMove(Cord{X:-1, Y:1}, Cord{X:0, Y:0}, "card")
 		if err == nil {
 			t.Errorf("Should be an error")
 		}
@@ -38,7 +38,7 @@ func TestValidateMove(t *testing.T) {
 
 	t.Run("Missing Starting Piece", func(t *testing.T) {
 		game := getTestGame()
-		err := game.validateMove(Cord{1, 1}, Cord{0, 0}, "card")
+		err := game.validateMove(Cord{X:1, Y:1}, Cord{X:0, Y:0}, "card")
 		if err == nil {
 			t.Errorf("Should be an error")
 		}
@@ -46,7 +46,7 @@ func TestValidateMove(t *testing.T) {
 
 	t.Run("Trying to Move Opposing Team's piece", func(t *testing.T) {
 		game := getTestGame()
-		err := game.validateMove(Cord{1, 4}, Cord{0, 0}, "card")
+		err := game.validateMove(Cord{X:1, Y:4}, Cord{X:0, Y:0}, "card")
 		if err == nil {
 			t.Errorf("Should be an error")
 		}
@@ -54,7 +54,7 @@ func TestValidateMove(t *testing.T) {
 
 	t.Run("Trying to use incorrect card", func(t *testing.T) {
 		game := getTestGame()
-		err := game.validateMove(Cord{1, 0}, Cord{1, 1}, "monkey")
+		err := game.validateMove(Cord{X:1, Y:0}, Cord{X:1, Y:1}, "monkey")
 		if err == nil {
 			t.Errorf("Should be an error")
 		}
@@ -62,7 +62,7 @@ func TestValidateMove(t *testing.T) {
 
 	t.Run("Trying invalid move with card", func(t *testing.T) {
 		game := getTestGame()
-		err := game.validateMove(Cord{1, 0}, Cord{1, 4}, "crane")
+		err := game.validateMove(Cord{X:1, Y:0}, Cord{X:1, Y:4}, "crane")
 		if err == nil {
 			t.Errorf("Should be an error")
 		}
@@ -70,7 +70,7 @@ func TestValidateMove(t *testing.T) {
 
 	t.Run("Trying to move off board", func(t *testing.T) {
 		game := getTestGame()
-		err := game.validateMove(Cord{1, 0}, Cord{0, -1}, "crane")
+		err := game.validateMove(Cord{X:1, Y:0}, Cord{X:0, Y:-1}, "crane")
 		if err == nil {
 			t.Errorf("Should be an error")
 		}
@@ -78,7 +78,7 @@ func TestValidateMove(t *testing.T) {
 
 	t.Run("Trying to move onto ally occupied space", func(t *testing.T) {
 		game := getTestGame()
-		err := game.validateMove(Cord{1, 0}, Cord{2, 0}, "eel")
+		err := game.validateMove(Cord{X:1, Y:0}, Cord{X:2, Y:0}, "eel")
 		if err == nil {
 			t.Errorf("Should be an error")
 		}
@@ -90,7 +90,7 @@ func TestValidateMove(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Setup Failed: %v", err)
 		}
-		err = game.validateMove(Cord{1, 0}, Cord{1, 1}, "crane")
+		err = game.validateMove(Cord{X:1, Y:0}, Cord{X:1, Y:1}, "crane")
 		if err != nil {
 			t.Errorf("Should not be an error")
 		}
