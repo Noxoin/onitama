@@ -20,14 +20,14 @@ func NewBoard() (*Board) {
 	}
 }
 
-func (b *Board) GetPiece(c Cord) (*Piece, error) {
+func (b *Board) getPiece(c Cord) (*Piece, error) {
 	if c.X < 0 || c.Y < 0 || c.X >= 5 || c.Y >= 5 {
 		return nil, errors.New(fmt.Sprintf("Invalid Cord: %v", c))
 	}
 	return b.board[c.X][c.Y], nil
 }
 
-func (b *Board) SetPiece(c Cord, p *Piece) (error) {
+func (b *Board) setPiece(c Cord, p *Piece) (error) {
 	if c.X < 0 || c.Y < 0 || c.X >= 5 || c.Y >= 5 {
 		return errors.New(fmt.Sprintf("Invalid Cord: %v", c))
 	}
@@ -35,7 +35,7 @@ func (b *Board) SetPiece(c Cord, p *Piece) (error) {
 	return nil
 }
 
-func (b *Board) HoldsKing(t Team) (bool) {
+func (b *Board) holdsKing(t Team) (bool) {
 	for _, row := range b.board {
 		for _, val := range row {
 			if val != nil && val.isKing() && val.Team == t {

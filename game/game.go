@@ -18,17 +18,17 @@ var redTemple = Cord{X: 2, Y: 0}
 
 func NewGame() (*Game) {
 	board := NewBoard()
-	board.SetPiece(Cord{X: 0, Y: 0}, NewPiece(false, Red))
-	board.SetPiece(Cord{X: 1, Y: 0}, NewPiece(false, Red))
-	board.SetPiece(Cord{X: 2, Y: 0}, NewPiece(true, Red))
-	board.SetPiece(Cord{X: 3, Y: 0}, NewPiece(false, Red))
-	board.SetPiece(Cord{X: 4, Y: 0}, NewPiece(false, Red))
+	board.setPiece(Cord{X: 0, Y: 0}, NewPiece(false, Red))
+	board.setPiece(Cord{X: 1, Y: 0}, NewPiece(false, Red))
+	board.setPiece(Cord{X: 2, Y: 0}, NewPiece(true, Red))
+	board.setPiece(Cord{X: 3, Y: 0}, NewPiece(false, Red))
+	board.setPiece(Cord{X: 4, Y: 0}, NewPiece(false, Red))
 
-	board.SetPiece(Cord{X: 0, Y: 4}, NewPiece(false, Blue))
-	board.SetPiece(Cord{X: 1, Y: 4}, NewPiece(false, Blue))
-	board.SetPiece(Cord{X: 2, Y: 4}, NewPiece(true, Blue))
-	board.SetPiece(Cord{X: 3, Y: 4}, NewPiece(false, Blue))
-	board.SetPiece(Cord{X: 4, Y: 4}, NewPiece(false, Blue))
+	board.setPiece(Cord{X: 0, Y: 4}, NewPiece(false, Blue))
+	board.setPiece(Cord{X: 1, Y: 4}, NewPiece(false, Blue))
+	board.setPiece(Cord{X: 2, Y: 4}, NewPiece(true, Blue))
+	board.setPiece(Cord{X: 3, Y: 4}, NewPiece(false, Blue))
+	board.setPiece(Cord{X: 4, Y: 4}, NewPiece(false, Blue))
 
 	c := GetRandomCards(5, time.Now().UnixNano())
 	cards := make(map[Team]map[string]*Card)
@@ -48,7 +48,7 @@ func NewGame() (*Game) {
 }
 
 func (g *Game) validateMove(from Cord, to Cord, c string) (error) {
-	startPiece, err := g.board.GetPiece(from)
+	startPiece, err := g.board.getPiece(from)
 	if err != nil {
 		return err
 	}
@@ -69,7 +69,7 @@ func (g *Game) validateMove(from Cord, to Cord, c string) (error) {
 		return errors.New("The specified move is not valid for the card stated")
 	}
 
-	endPiece, err := g.board.GetPiece(to)
+	endPiece, err := g.board.getPiece(to)
 	if err != nil {
 		return err
 	}
@@ -84,9 +84,9 @@ func (g *Game) PerformNextMove(from Cord, to Cord, c string) (error) {
 	if err := g.validateMove(from, to, c); err != nil {
 		return err
 	}
-	piece, _ := g.board.GetPiece(from)
-	g.board.SetPiece(to, piece)
-	g.board.SetPiece(from, nil)
+	piece, _ := g.board.getPiece(from)
+	g.board.setPiece(to, piece)
+	g.board.setPiece(from, nil)
 	g.cards[g.turn][g.neutralCard.Name] = g.neutralCard
 	g.neutralCard = g.cards[g.turn][c]
 	delete(g.cards[g.turn], c)
@@ -94,8 +94,8 @@ func (g *Game) PerformNextMove(from Cord, to Cord, c string) (error) {
 }
 
 func (g *Game) GetWinner() (Team, error) {
-	blueWin := !g.board.HoldsKing(Red)
-	redWin := !g.board.HoldsKing(Blue)
+	blueWin := !g.board.holdsKing(Red)
+	redWin := !g.board.holdsKing(Blue)
 	if blueWin && redWin {
 		return None, errors.New("The table is in an inconsistent state. " +
 		                        "Did you call GetWinner() after every move?")
@@ -108,8 +108,8 @@ func (g *Game) GetWinner() (Team, error) {
 	}
 
 	// Both Kings are still on the board
-	pieceRT, _ := g.board.GetPiece(redTemple)
-	pieceBT, _ := g.board.GetPiece(blueTemple)
+	pieceRT, _ := g.board.getPiece(redTemple)
+	pieceBT, _ := g.board.getPiece(blueTemple)
 	blueWin = pieceRT != nil && pieceRT.Team == Blue && pieceRT.isKing()
 	redWin = pieceBT != nil && pieceBT.Team == Red && pieceBT.isKing()
 	if blueWin && redWin {

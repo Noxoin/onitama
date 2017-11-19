@@ -40,7 +40,7 @@ func TestGetWinner(t *testing.T) {
 	t.Run("Temple Conditions", func(t *testing.T) {
 		t.Run("Blue king @ Red temple", func(t *testing.T) {
 			game := NewGame()
-			game.board.SetPiece(redTemple, NewPiece(true, Blue))
+			game.board.setPiece(redTemple, NewPiece(true, Blue))
 			winner, err := game.GetWinner()
 			if err != nil {
 				t.Errorf("There shouldn't be an error")
@@ -52,7 +52,7 @@ func TestGetWinner(t *testing.T) {
 
 		t.Run("Red king @ Blue temple", func(t *testing.T) {
 			game := NewGame()
-			game.board.SetPiece(blueTemple, NewPiece(true, Red))
+			game.board.setPiece(blueTemple, NewPiece(true, Red))
 			winner, err := game.GetWinner()
 			if err != nil {
 				t.Errorf("There shouldn't be an error")
@@ -64,8 +64,8 @@ func TestGetWinner(t *testing.T) {
 
 		t.Run("Red king @ Blue temple and Blue king @ Red Temple", func(t *testing.T) {
 			game := NewGame()
-			game.board.SetPiece(blueTemple, NewPiece(true, Red))
-			game.board.SetPiece(redTemple, NewPiece(true, Blue))
+			game.board.setPiece(blueTemple, NewPiece(true, Red))
+			game.board.setPiece(redTemple, NewPiece(true, Blue))
 			_, err := game.GetWinner()
 			if err == nil {
 				t.Errorf("There should be an error")
@@ -76,7 +76,7 @@ func TestGetWinner(t *testing.T) {
 	t.Run("King Conditions", func(t *testing.T) {
 		t.Run("Missing Red King", func(t *testing.T) {
 			game := NewGame()
-			game.board.SetPiece(redTemple, nil)
+			game.board.setPiece(redTemple, nil)
 			winner, err := game.GetWinner()
 			if err != nil {
 				t.Errorf("There shouldn't be an error")
@@ -88,7 +88,7 @@ func TestGetWinner(t *testing.T) {
 
 		t.Run("Missing Blue King", func(t *testing.T) {
 			game := NewGame()
-			game.board.SetPiece(blueTemple, nil)
+			game.board.setPiece(blueTemple, nil)
 			winner, err := game.GetWinner()
 			if err != nil {
 				t.Errorf("There shouldn't be an error")
@@ -100,8 +100,8 @@ func TestGetWinner(t *testing.T) {
 
 		t.Run("Missing Red and Blue King", func(t *testing.T) {
 			game := NewGame()
-			game.board.SetPiece(blueTemple, nil)
-			game.board.SetPiece(redTemple, nil)
+			game.board.setPiece(blueTemple, nil)
+			game.board.setPiece(redTemple, nil)
 			_, err := game.GetWinner()
 			if err == nil {
 				t.Errorf("There should be an error")
