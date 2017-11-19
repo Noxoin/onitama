@@ -60,7 +60,7 @@ func TestCordMove(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(fmt.Sprintf("%v + %v = %v", test.input, test.delta, test.res), func(t *testing.T) {
-			res := test.input.Move(test.delta)
+			res := test.input.move(test.delta)
 			if res != test.res {
 				t.Errorf("Incorrect Resulting Cord: got: %v, want: %v", res, test.res)
 			}
@@ -107,7 +107,7 @@ func TestCordDelta(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(fmt.Sprintf("%v - %v = %v", test.end, test.input, test.res), func(t *testing.T) {
-			res := test.input.Delta(test.end)
+			res := test.input.delta(test.end)
 			if res != test.res {
 				t.Errorf("Incorrect Resulting Cord: got: %v, want: %v", res, test.res)
 			}

@@ -12,7 +12,7 @@ func NewCord(x int, y int) (Cord) {
 	}
 }
 
-func (c Cord) Delta(end Cord) (Cord) {
+func (c Cord) delta(end Cord) (Cord) {
 	x := end.X - c.X
 	y := end.Y - c.Y
 	return Cord{
@@ -21,7 +21,7 @@ func (c Cord) Delta(end Cord) (Cord) {
 	}
 }
 
-func (c Cord) Move(delta Cord) (Cord) {
+func (c Cord) move(delta Cord) (Cord) {
 	x := c.X + delta.X
 	y := c.Y + delta.Y
 	return Cord{

@@ -60,7 +60,7 @@ func (g *Game) validateMove(from Cord, to Cord, c string) (error) {
 		return errors.New("Trying to move a piece from the other team")
 	}
 
-	move := from.Delta(to)
+	move := from.delta(to)
 	card := g.cards[g.turn][c]
 	if card == nil {
 		return errors.New("Unable to perform that move with the cards at hand")
