@@ -5,6 +5,16 @@ import (
 	"testing"
 )
 
+func TestNewCord(t *testing.T) {
+	cord := NewCord(3, 5)
+	if cord.X != 3 {
+		t.Errorf("Cord.X failed: got: %v, want: %v", cord.X, 3)
+	}
+	if cord.Y != 5 {
+		t.Errorf("Cord.Y failed: got: %v, want: %v", cord.Y, 5)
+	}
+}
+
 func TestCordMove(t *testing.T) {
 	tests := []struct {
 		input Cord

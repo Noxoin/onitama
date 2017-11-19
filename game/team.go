@@ -5,13 +5,11 @@ type Team int
 func (t Team) String() string {
 	switch t {
 	case Red:
-		return "Read"
+		return "Red"
 	case Blue:
 		return "Blue"
-	case None:
-		return "None"
 	}
-	return ""
+	return "None"
 }
 
 const (
