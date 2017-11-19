@@ -14,15 +14,81 @@ func setupCardsInGame(game *Game) {
   game.cards[Blue][c[2].Name] = c[2]
   game.cards[Blue][c[3].Name] = c[3]
   game.neutralCard = c[4]
+	game.turn = Red
 }
 
-func TestValidateMoveMissingStarPiece(t *testing.T) {
-	game := NewGame()
-	setupCardsInGame(game)
-	err := game.validateMove(Cord{1, 1}, Cord{0, 0}, "card")
-	if err == nil {
-		t.Errorf("Should be an error")
-	}
+func TestValidateMove(t *testing.T) {
+	t.Run("Valid Move", func(t *testing.T) {
+		game := NewGame()
+		setupCardsInGame(game)
+		err := game.validateMove(Cord{1, 0}, Cord{1, 1}, "crane")
+		if err != nil {
+			t.Errorf("Should not be an error")
+		}
+	})
+
+	t.Run("Starting Cord Out of Bounds", func(t *testing.T) {
+		game := NewGame()
+		setupCardsInGame(game)
+		err := game.validateMove(Cord{-1, 1}, Cord{0, 0}, "card")
+		if err == nil {
+			t.Errorf("Should be an error")
+		}
+	})
+
+	t.Run("Missing Starting Piece", func(t *testing.T) {
+		game := NewGame()
+		setupCardsInGame(game)
+		err := game.validateMove(Cord{1, 1}, Cord{0, 0}, "card")
+		if err == nil {
+			t.Errorf("Should be an error")
+		}
+	})
+
+	t.Run("Trying to Move Opposing Team's piece", func(t *testing.T) {
+		game := NewGame()
+		setupCardsInGame(game)
+		err := game.validateMove(Cord{1, 4}, Cord{0, 0}, "card")
+		if err == nil {
+			t.Errorf("Should be an error")
+		}
+	})
+
+	t.Run("Trying to use incorrect card", func(t *testing.T) {
+		game := NewGame()
+		setupCardsInGame(game)
+		err := game.validateMove(Cord{1, 0}, Cord{1, 1}, "monkey")
+		if err == nil {
+			t.Errorf("Should be an error")
+		}
+	})
+
+	t.Run("Trying invalid move with card", func(t *testing.T) {
+		game := NewGame()
+		setupCardsInGame(game)
+		err := game.validateMove(Cord{1, 0}, Cord{1, 4}, "crane")
+		if err == nil {
+			t.Errorf("Should be an error")
+		}
+	})
+
+	t.Run("Trying to move off board", func(t *testing.T) {
+		game := NewGame()
+		setupCardsInGame(game)
+		err := game.validateMove(Cord{1, 0}, Cord{0, -1}, "crane")
+		if err == nil {
+			t.Errorf("Should be an error")
+		}
+	})
+
+	t.Run("Trying to move onto ally occupied space", func(t *testing.T) {
+		game := NewGame()
+		setupCardsInGame(game)
+		err := game.validateMove(Cord{1, 0}, Cord{2, 0}, "eel")
+		if err == nil {
+			t.Errorf("Should be an error")
+		}
+	})
 }
 
 func TestGetWinner(t *testing.T) {
