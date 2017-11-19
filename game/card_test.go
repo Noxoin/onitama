@@ -1,6 +1,7 @@
 package game
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -42,9 +43,11 @@ func TestIsValidMove(t *testing.T) {
 	}
 
 	for _, v := range tests {
-		res := card.isValidMove(v.input)
-		if res != v.res {
-			t.Errorf("TestIsValidMove failed: got: %v, want: %v", res, v.res)
-		}
+		t.Run(fmt.Sprintf("Cord %v - %v", v.input, v.res), func(t *testing.T) {
+			res := card.isValidMove(v.input)
+			if res != v.res {
+				t.Errorf("TestIsValidMove failed: got: %v, want: %v", res, v.res)
+			}
+		})
 	}
 }
