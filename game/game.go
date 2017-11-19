@@ -13,6 +13,9 @@ type Game struct {
 	neutralCard *Card
 }
 
+var blueTemple = Cord{X: 2, Y:4}
+var redTemple = Cord{X: 2, Y: 0}
+
 func NewGame() (*Game) {
 	board := NewBoard()
 	board.SetPiece(Cord{X: 0, Y: 0}, NewPiece(false, Red))
@@ -91,6 +94,35 @@ func (g *Game) PerformNextMove(from Cord, to Cord, c string) (error) {
 }
 
 func (g *Game) GetWinner() (Team, error) {
+	blueWin := !g.board.HoldsKing(Red)
+	redWin := !g.board.HoldsKing(Blue)
+	if blueWin && redWin {
+		return None, errors.New("The table is in an inconsistent state. " +
+		                        "Did you call GetWinner() after every move?")
+	}
+	if blueWin {
+		return Blue, nil
+	}
+	if redWin {
+		return Red, nil
+	}
+
+	// Both Kings are still on the board
+	pieceRT, _ := g.board.GetPiece(redTemple)
+	pieceBT, _ := g.board.GetPiece(blueTemple)
+	blueWin = pieceRT != nil && pieceRT.Team == Blue && pieceRT.isKing()
+	redWin = pieceBT != nil && pieceBT.Team == Red && pieceBT.isKing()
+	if blueWin && redWin {
+		return None, errors.New("The table is in an inconsistent state. " +
+		                        "Did you call GetWinner() after every move?")
+	}
+	if blueWin {
+		return Blue, nil
+	}
+	if redWin {
+		return Red, nil
+	}
+
 	return None, nil
 }
 

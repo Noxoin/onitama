@@ -26,9 +26,86 @@ func TestValidateMoveMissingStarPiece(t *testing.T) {
 }
 
 func TestGetWinner(t *testing.T) {
-	game := NewGame()
-	winner, _ := game.GetWinner()
-	if winner == Red || winner == Blue{
-		t.Errorf("There shouldn't be a winner")
-	}
+	t.Run("New Board", func(t *testing.T) {
+		game := NewGame()
+		winner, err := game.GetWinner()
+		if err != nil {
+			t.Errorf("There shouldn't be an error")
+		}
+		if winner != None {
+			t.Errorf("There shouldn't be a winner")
+		}
+	})
+
+	t.Run("Temple Conditions", func(t *testing.T) {
+		t.Run("Blue king @ Red temple", func(t *testing.T) {
+			game := NewGame()
+			game.board.SetPiece(redTemple, NewPiece(true, Blue))
+			winner, err := game.GetWinner()
+			if err != nil {
+				t.Errorf("There shouldn't be an error")
+			}
+			if winner != Blue {
+				t.Errorf("There should be a winner: got: %v, want: %v", winner, Blue)
+			}
+		})
+
+		t.Run("Red king @ Blue temple", func(t *testing.T) {
+			game := NewGame()
+			game.board.SetPiece(blueTemple, NewPiece(true, Red))
+			winner, err := game.GetWinner()
+			if err != nil {
+				t.Errorf("There shouldn't be an error")
+			}
+			if winner != Red {
+				t.Errorf("There should be a winner: got: %v, want: %v", winner, Red)
+			}
+		})
+
+		t.Run("Red king @ Blue temple and Blue king @ Red Temple", func(t *testing.T) {
+			game := NewGame()
+			game.board.SetPiece(blueTemple, NewPiece(true, Red))
+			game.board.SetPiece(redTemple, NewPiece(true, Blue))
+			_, err := game.GetWinner()
+			if err == nil {
+				t.Errorf("There should be an error")
+			}
+		})
+	})
+
+	t.Run("King Conditions", func(t *testing.T) {
+		t.Run("Missing Red King", func(t *testing.T) {
+			game := NewGame()
+			game.board.SetPiece(redTemple, nil)
+			winner, err := game.GetWinner()
+			if err != nil {
+				t.Errorf("There shouldn't be an error")
+			}
+			if winner != Blue {
+				t.Errorf("There should be a winner: got: %v, want: %v", winner, Blue)
+			}
+		})
+
+		t.Run("Missing Blue King", func(t *testing.T) {
+			game := NewGame()
+			game.board.SetPiece(blueTemple, nil)
+			winner, err := game.GetWinner()
+			if err != nil {
+				t.Errorf("There shouldn't be an error")
+			}
+			if winner != Red {
+				t.Errorf("There should be a winner: got: %v, want: %v", winner, Red)
+			}
+		})
+
+		t.Run("Missing Red and Blue King", func(t *testing.T) {
+			game := NewGame()
+			game.board.SetPiece(blueTemple, nil)
+			game.board.SetPiece(redTemple, nil)
+			_, err := game.GetWinner()
+			if err == nil {
+				t.Errorf("There should be an error")
+			}
+		})
+	})
 }
