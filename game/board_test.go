@@ -1,6 +1,7 @@
 package game
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -41,10 +42,12 @@ func TestGetPieceError(t *testing.T) {
 
 	board := NewBoard()
 	for _, test := range tests {
-		_, err := board.GetPiece(test.input)
-		if err == nil {
-			t.Errorf("TestGetPieceError failed: expect error on cord %v", test.input)
-		}
+		t.Run(fmt.Sprintf("Cord %v", test.input), func(t *testing.T) {
+			_, err := board.GetPiece(test.input)
+			if err == nil {
+				t.Errorf("TestGetPieceError failed: expect error on cord %v", test.input)
+			}
+		})
 	}
 }
 
@@ -118,11 +121,11 @@ func TestHoldsKing(t *testing.T) {
 		board.SetPiece(test.cord, test.piece)
 		if board.HoldsKing(Red) != test.resRed {
 			t.Errorf("TestHoldsKing failed: %v: got: %v, want: %v",
-			         idx, !test.resRed, test.resRed)
+							 idx, !test.resRed, test.resRed)
 		}
 		if board.HoldsKing(Blue) != test.resBlue {
 			t.Errorf("TestHoldsKing failed: %v: got: %v, want: %v",
-			         idx, !test.resBlue, test.resBlue)
+							 idx, !test.resBlue, test.resBlue)
 		}
 	}
 }
