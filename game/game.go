@@ -47,7 +47,7 @@ func NewGame() (*Game) {
 	}
 }
 
-func (g *Game) validateMove(from Cord, to Cord, c string) (error) {
+func (g *Game) validateMove(from Cord, to Cord, cardName string) (error) {
 	startPiece, err := g.board.getPiece(from)
 	if err != nil {
 		return err
@@ -61,7 +61,7 @@ func (g *Game) validateMove(from Cord, to Cord, c string) (error) {
 	}
 
 	move := from.delta(to)
-	card := g.cards[g.turn][c]
+	card := g.cards[g.turn][cardName]
 	if card == nil {
 		return errors.New("Unable to perform that move with the cards at hand")
 	}
@@ -80,16 +80,16 @@ func (g *Game) validateMove(from Cord, to Cord, c string) (error) {
 	return nil
 }
 
-func (g *Game) PerformNextMove(from Cord, to Cord, c string) (error) {
-	if err := g.validateMove(from, to, c); err != nil {
+func (g *Game) PerformNextMove(from Cord, to Cord, cardName string) (error) {
+	if err := g.validateMove(from, to, cardName); err != nil {
 		return err
 	}
 	piece, _ := g.board.getPiece(from)
 	g.board.setPiece(to, piece)
 	g.board.setPiece(from, nil)
 	g.cards[g.turn][g.neutralCard.Name] = g.neutralCard
-	g.neutralCard = g.cards[g.turn][c]
-	delete(g.cards[g.turn], c)
+	g.neutralCard = g.cards[g.turn][cardName]
+	delete(g.cards[g.turn], cardName)
 	return nil
 }
 
