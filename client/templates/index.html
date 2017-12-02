@@ -1,13 +1,28 @@
-{{ define "base" }}
-<html>
-	<head>
-		<title>Onitama</title>
-		<script src="/js/client.js"></script>
-	</head>
-	<body>
-		{{.}}
-		<div id="messages">
+{{ define "body" }}
+		<div class="ui segment vertical stripe">
+			<div class="ui container">
+				<p>Welcome to Noxoin's Onitama Server! This is not an official product and has no affiliation with the original product.</p>
+				<p>Onitama was created by Shimpei Sato and published by Arcane Wonders.</p>
+				<h2>Create a room!</h2>
+				<div id="create">
+					<div class="ui input">
+						<input name="Room Name" placeholder="Room Name" />
+					</div>
+					<div class="ui input">
+						<input name="Room Password" placeholder="Room Password" />
+					</div>
+					<button class="ui button blue">Join</button>
+				</div>
+				<h2>Join a room</h2>
+				<div id="join">
+					<div class="ui input">
+						<input name="Room Name" placeholder="Room Name" />
+					</div>
+					<div class="ui input">
+						<input name="Room Password" placeholder="Room Password" />
+					</div>
+					<button class="ui button blue">Join</button>
+				</div>
+			</div>
 		</div>
-	</body>
-</html>
 {{ end }}
