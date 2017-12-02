@@ -25,5 +25,4 @@ func clientHandler(w http.ResponseWriter, r *http.Request) {
 	if err := conn.WriteMessage(websocket.TextMessage, []byte("Welcome to sockets")); err != nil {
 		return
 	}
-	//conn.Close()
 }
