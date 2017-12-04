@@ -1,6 +1,7 @@
 package server
 
 import (
+	"html/template"
 	"log"
 	"net/http"
 
@@ -12,8 +13,33 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 }
 
+var (
+	gameRooms map[string]*GameRoom
+)
+
 func init() {
-	http.HandleFunc("/game/", clientHandler)
+	http.HandleFunc("/socket/", clientHandler)
+	tmpls["game"] = template.Must(template.ParseFiles(
+    "client/templates/game.html", "client/templates/base.html"))
+	gameRooms = make(map[string]*GameRoom)
+}
+
+func gameHandler(w http.ResponseWriter, r *http.Request) {
+	gameId := r.URL.Path[1:]
+	if gameRooms[gameId] == nil {
+		http.NotFound(w, r)
+		return
+	}
+	tmpls["game"].ExecuteTemplate(w, "base", gameId)
+}
+
+func createGameHandler(w http.ResponseWriter, r *http.Request) {
+	randId := GenerateRandomId()
+	for gameRooms[randId] != nil {
+		randId = GenerateRandomId()
+	}
+	gameRooms[randId] = NewGameRoom()
+	http.Redirect(w, r, r.URL.Host + "/" + randId, http.StatusFound)
 }
 
 func clientHandler(w http.ResponseWriter, r *http.Request) {

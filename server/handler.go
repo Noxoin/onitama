@@ -6,7 +6,6 @@ import (
 )
 
 var (
-	projectId = "api-project-377888563324"
 	tmpls     map[string]*template.Template
 )
 
@@ -21,5 +20,13 @@ func init() {
 }
 
 func mainHandler(w http.ResponseWriter, r *http.Request) {
-	tmpls["index"].ExecuteTemplate(w, "base", "Hello Onitama Server")
+	if r.URL.Path != "/" {
+		gameHandler(w, r)
+		return
+	}
+	if r.Method == http.MethodPost {
+		createGameHandler(w, r)
+		return
+	}
+	tmpls["index"].ExecuteTemplate(w, "base", nil)
 }
