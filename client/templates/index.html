@@ -5,24 +5,40 @@
 				<p>Onitama was created by Shimpei Sato and published by Arcane Wonders.</p>
 				<h2>Create a room!</h2>
 				<div id="create">
-					<div class="ui input">
-						<input name="Room Name" placeholder="Room Name" />
-					</div>
-					<div class="ui input">
-						<input name="Room Password" placeholder="Room Password" />
-					</div>
-					<button class="ui button blue">Join</button>
+					<button class="ui button blue" onclick="create()">Create</button>
 				</div>
 				<h2>Join a room</h2>
 				<div id="join">
-					<div class="ui input">
-						<input name="Room Name" placeholder="Room Name" />
+					<div class="ui negative message hidden" id="joinErrorMsg">
 					</div>
 					<div class="ui input">
-						<input name="Room Password" placeholder="Room Password" />
+						<input name="roomId" placeholder="Room Name" />
 					</div>
-					<button class="ui button blue">Join</button>
+					<button class="ui button blue" onclick="join()">Join</button>
 				</div>
 			</div>
 		</div>
+<script type="text/javascript">
+function create() {
+  var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4) {
+			window.location.replace(xhttp.responseURL);
+		}
+	};
+  xhttp.open("POST", "/", true);
+  xhttp.send(null);
+}
+
+function join() {
+	var roomId = document.getElementById('join').getElementsByTagName('input')["roomId"].value;
+	if (roomId == "") {
+		var div = document.getElementById('joinErrorMsg');
+		div.innerHTML = "Room Name is missing";
+		div.className = div.className.replace(" hidden", "");
+		return;
+	}
+	window.location.replace("/" + roomId);
+}
+</script>
 {{ end }}
