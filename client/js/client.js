@@ -1,6 +1,6 @@
-console.log("Hello Helow World");
+console.log(window.location.pathname);
 
-var connection = new WebSocket('ws://' + document.location.host + '/game/foo');
+var connection = new WebSocket('ws://' + document.location.host + '/socket' + window.location.pathname);
 connection.onopen = function () {
 	console.log("Open");
 };
@@ -11,5 +11,4 @@ connection.onerror = function (error) {
 
 connection.onmessage = function(e) {
 	console.log("You got message");
-	document.getElementById("messages").innerHtml = e.data;
 };
